@@ -6,6 +6,17 @@ const Bottom = 230;
 // x coordinate that is the farthest right a bug can still be seeen.
 const FarRight = 502;
 const StartingPoint = -98;
+
+//Player specific coordinates
+const PlayerStartingX = 202;
+const PlayerStartingY = 315;
+const PlayerXMoveIncrement = 101;
+const PlayerYMoveIncrement = 85;
+const PlayerLeftBoundary = -100;
+const PlayerRightBoundary = 450;
+const PlayerTopBoundary = -100;
+const PlayerBottomBoundary = 450;
+
 // Enemies our player must avoid
 var Enemy = function(loc) {
   // Variables applied to each of our instances go here,
@@ -113,11 +124,48 @@ StillBug.prototype.move = function(dt) {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+var Player = function(loc) {
+  this.sprite = 'images/char-boy.png';
+  this.x = PlayerStartingX;
+  this.y = PlayerStartingY;
+};
+
+Player.prototype.update = function() {}
+Player.prototype.render = function() {
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+Player.prototype.handleInput = function(key) {
+  switch (key) {
+    case 'up':
+      if (this.y - PlayerYMoveIncrement > PlayerTopBoundary) {
+        this.y -= PlayerYMoveIncrement;
+      }
+      break;
+    case 'down':
+      if (this.y + PlayerYMoveIncrement < PlayerBottomBoundary) {
+        this.y += PlayerYMoveIncrement;
+      }
+      break;
+    case 'left':
+      if (this.x - PlayerXMoveIncrement > PlayerLeftBoundary) {
+        this.x -= PlayerXMoveIncrement;
+      }
+      break;
+    case 'right':
+      if (this.x + PlayerYMoveIncrement < PlayerRightBoundary) {
+        this.x += PlayerXMoveIncrement;
+      }
+      break;
+    default:
+
+  }
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const allEnemies = [new SlowBug(Top), new FastBug(Middle), new StandardBug(Bottom)];
+const player = new Player;
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -129,5 +177,5 @@ document.addEventListener('keyup', function(e) {
     40: 'down'
   };
 
-  //player.handleInput(allowedKeys[e.keyCode]);
+  player.handleInput(allowedKeys[e.keyCode]);
 });
