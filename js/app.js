@@ -2,6 +2,7 @@
 const Top = 60;
 const Middle = 145;
 const Bottom = 230;
+const Win = -25;
 
 // x coordinate that is the farthest right a bug can still be seeen.
 const FarRight = 502;
@@ -125,15 +126,22 @@ StillBug.prototype.move = function(dt) {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function(loc) {
-  this.sprite = 'images/char-boy.png';
+  //this.sprite = 'images/char-cat-girl.png';
   this.x = PlayerStartingX;
   this.y = PlayerStartingY;
 };
 
-Player.prototype.update = function() {}
+Player.prototype.update = function() {
+  player.checkCollisions();
+  player.checkWin();
+}
+// draws the player onto the screen at current
+// coordinates
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
+// if one of the directional buttons are pressed
+// moves the player in that direction
 Player.prototype.handleInput = function(key) {
   switch (key) {
     case 'up':
@@ -158,6 +166,24 @@ Player.prototype.handleInput = function(key) {
       break;
     default:
 
+  }
+}
+// checks if the player is hit by an Enemy and resets
+// player position if it is
+Player.prototype.checkCollisions = function() {
+  allEnemies.forEach(function(enemy) {
+    if (enemy.y == player.y  && enemy.x > player.x - 50 && enemy.x < player.x + 50) {
+      player.x = PlayerStartingX;
+      player.y = PlayerStartingY;
+    }
+  });
+}
+// checks if the player made it to the water. aka wins
+Player.prototype.checkWin = function() {
+  if (this.y == Win) {
+    alert('Your nimble maneuvers = success!')
+    this.x = PlayerStartingX;
+    this.y = PlayerStartingY;
   }
 }
 
