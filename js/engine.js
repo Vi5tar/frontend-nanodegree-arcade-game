@@ -162,6 +162,31 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
   function reset() {
+    if (player.sprite === undefined) {
+      var char = prompt(`Type desired Character:
+        Boy, Cat Girl, Horn Girl, Pink Girl, Princess Girl`);
+        switch (char) {
+          case 'Boy':
+            player.sprite = 'images/char-boy.png';
+            break;
+          case 'Cat Girl':
+            player.sprite = 'images/char-cat-girl.png';
+            break;
+          case 'Horn Girl':
+            player.sprite = 'images/char-horn-girl.png';
+            break;
+          case 'Pink Girl':
+            player.sprite = 'images/char-pink-girl.png';
+            break;
+          case 'Princess Girl':
+            player.sprite = 'images/char-princess-girl.png';
+            break;
+          default:
+            alert('Type Character name exactly as seen.');
+            reset();
+        }
+    }
+
     // noop
   }
 
@@ -169,7 +194,7 @@ var Engine = (function(global) {
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.
      */
-  Resources.load(['images/stone-block.png', 'images/water-block.png', 'images/grass-block.png', 'images/enemy-bug.png', 'images/char-boy.png']);
+  Resources.load(['images/stone-block.png', 'images/water-block.png', 'images/grass-block.png', 'images/enemy-bug.png', 'images/char-boy.png', 'images/char-cat-girl.png', 'images/char-horn-girl.png', 'images/char-pink-girl.png', 'images/char-princess-girl.png']);
   Resources.onReady(init);
 
   /* Assign the canvas' context object to the global variable (the window
