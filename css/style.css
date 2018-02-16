@@ -1,3 +1,12 @@
 body {
     text-align: center;
 }
+
+.modal-header {
+  margin: auto;
+}
+
+.spriteOption:hover {
+    cursor: pointer;
+    width: 111px;
+}

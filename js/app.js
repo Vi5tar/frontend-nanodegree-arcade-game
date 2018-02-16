@@ -126,7 +126,7 @@ StillBug.prototype.move = function(dt) {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function(loc) {
-  //this.sprite = 'images/char-cat-girl.png';
+  this.sprite = 'images/char-cat-girl.png';
   this.x = PlayerStartingX;
   this.y = PlayerStartingY;
 };
@@ -205,3 +205,8 @@ document.addEventListener('keyup', function(e) {
 
   player.handleInput(allowedKeys[e.keyCode]);
 });
+
+//assigns the selected sprite to the player.
+function selection(char) {
+  player.sprite = char;
+}
