@@ -162,7 +162,8 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
   function reset() {
-    if (player.sprite === undefined) {
+    $('#charSelect').modal()
+    /*if (player.sprite === undefined) {
       var char = prompt(`Type desired Character:
         Boy, Cat Girl, Horn Girl, Pink Girl, Princess Girl`);
         switch (char) {
@@ -185,9 +186,14 @@ var Engine = (function(global) {
             alert('Type Character name exactly as seen.');
             reset();
         }
-    }
+    }*/
 
     // noop
+  }
+
+  function selection(char) {
+    player.sprite = char;
+    $('#charSelect').modal()
   }
 
   /* Go ahead and load all of the images we know we're going to need to
