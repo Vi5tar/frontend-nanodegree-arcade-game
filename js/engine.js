@@ -163,32 +163,6 @@ var Engine = (function(global) {
      */
   function reset() {
     $('#charSelect').modal()
-    /*if (player.sprite === undefined) {
-      var char = prompt(`Type desired Character:
-        Boy, Cat Girl, Horn Girl, Pink Girl, Princess Girl`);
-        switch (char) {
-          case 'Boy':
-            player.sprite = 'images/char-boy.png';
-            break;
-          case 'Cat Girl':
-            player.sprite = 'images/char-cat-girl.png';
-            break;
-          case 'Horn Girl':
-            player.sprite = 'images/char-horn-girl.png';
-            break;
-          case 'Pink Girl':
-            player.sprite = 'images/char-pink-girl.png';
-            break;
-          case 'Princess Girl':
-            player.sprite = 'images/char-princess-girl.png';
-            break;
-          default:
-            alert('Type Character name exactly as seen.');
-            reset();
-        }
-    }*/
-
-    // noop
   }
 
   /* Go ahead and load all of the images we know we're going to need to
