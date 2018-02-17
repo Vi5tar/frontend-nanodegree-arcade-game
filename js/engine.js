@@ -191,11 +191,6 @@ var Engine = (function(global) {
     // noop
   }
 
-  function selection(char) {
-    player.sprite = char;
-    $('#charSelect').modal()
-  }
-
   /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.
@@ -209,3 +204,8 @@ var Engine = (function(global) {
      */
   global.ctx = ctx;
 })(this);
+
+//assigns the selected sprite to the player.
+function selection(char) {
+  player.sprite = char;
+}

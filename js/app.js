@@ -135,11 +135,13 @@ Player.prototype.update = function() {
   player.checkCollisions();
   player.checkWin();
 }
+
 // draws the player onto the screen at current
 // coordinates
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
+
 // if one of the directional buttons are pressed
 // moves the player in that direction
 Player.prototype.handleInput = function(key) {
@@ -168,6 +170,7 @@ Player.prototype.handleInput = function(key) {
 
   }
 }
+
 // checks if the player is hit by an Enemy and resets
 // player position if it is
 Player.prototype.checkCollisions = function() {
@@ -178,12 +181,17 @@ Player.prototype.checkCollisions = function() {
     }
   });
 }
+
 // checks if the player made it to the water. aka wins
 Player.prototype.checkWin = function() {
   if (this.y == Win) {
-    alert('Your nimble maneuvers = success!')
-    this.x = PlayerStartingX;
-    this.y = PlayerStartingY;
+    this.x++;
+    this.y++;
+    setTimeout(function() {
+      alert('Your nimble maneuvers = success!')
+      player.x = PlayerStartingX;
+      player.y = PlayerStartingY;
+    }, 250);
   }
 }
 
@@ -205,8 +213,3 @@ document.addEventListener('keyup', function(e) {
 
   player.handleInput(allowedKeys[e.keyCode]);
 });
-
-//assigns the selected sprite to the player.
-function selection(char) {
-  player.sprite = char;
-}
