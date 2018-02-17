@@ -1,5 +1,6 @@
 body {
-    text-align: center;
+  margin-top: -45px;
+  text-align: center;
 }
 
 .modal-header {
@@ -7,6 +8,12 @@ body {
 }
 
 .spriteOption:hover {
-    cursor: pointer;
-    width: 111px;
+  cursor: pointer;
+  width: 111px;
+}
+
+.navbar {
+  margin: auto;
+  top: 50px;
+  width: 505px;
 }
