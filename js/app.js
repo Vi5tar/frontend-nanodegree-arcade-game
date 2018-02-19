@@ -178,21 +178,63 @@ Player.prototype.checkCollisions = function() {
     if (enemy.y == player.y  && enemy.x > player.x - 50 && enemy.x < player.x + 50) {
       player.x = PlayerStartingX;
       player.y = PlayerStartingY;
+      scoreBoard.loseLife();
+      scoreBoard.renderLife();
     }
   });
 }
 
-// checks if the player made it to the water. aka wins
+// checks if the player made it to the water. ups score
+// and resests character position.
 Player.prototype.checkWin = function() {
   if (this.y == Win) {
     this.x++;
     this.y++;
     setTimeout(function() {
-      alert('Your nimble maneuvers = success!')
+      //alert('Your nimble maneuvers = success!')
       player.x = PlayerStartingX;
       player.y = PlayerStartingY;
+      scoreBoard.alterScore(100);
+      scoreBoard.renderScore();
     }, 250);
   }
+}
+
+// a scoreboard to track remaining lives and current score.
+var ScoreBoard = function() {
+  this.lives = 3;
+  this.score = 0;
+};
+
+//lowers the life count by one. game resets if lives drop
+//to zero
+ScoreBoard.prototype.loseLife = function() {
+  this.lives--;
+  if (this.lives == 0) {
+    alert(`game over :(
+Your score: ${this.score}`);
+    document.location.reload();
+  }
+}
+
+//alters score.
+ScoreBoard.prototype.alterScore = function(score) {
+  this.score += score;
+}
+
+//updates the scoreboard to represent current lives.
+ScoreBoard.prototype.renderLife = function() {
+  const lifeImg = '<img src="images/Heart.png" width="20" height="30" class="d-inline-block align-top" alt=""> '
+  let lifeDisplay = "Lives: ";
+  for (var i = 0; i < this.lives; i++) {
+    lifeDisplay += lifeImg
+  }
+  document.getElementById("lifeCount").innerHTML = lifeDisplay;
+}
+
+//update the scoreboard to reflect current score.
+ScoreBoard.prototype.renderScore = function() {
+  document.getElementById("scoreTally").innerHTML = `Score: ${this.score}`
 }
 
 // Now instantiate your objects.
@@ -200,6 +242,12 @@ Player.prototype.checkWin = function() {
 // Place the player object in a variable called player
 const allEnemies = [new SlowBug(Top), new FastBug(Middle), new StandardBug(Bottom)];
 const player = new Player;
+const scoreBoard = new ScoreBoard;
+
+//assigns the selected sprite to the player.
+function selection(char) {
+  player.sprite = char;
+}
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

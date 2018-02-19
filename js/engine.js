@@ -178,8 +178,3 @@ var Engine = (function(global) {
      */
   global.ctx = ctx;
 })(this);
-
-//assigns the selected sprite to the player.
-function selection(char) {
-  player.sprite = char;
-}
