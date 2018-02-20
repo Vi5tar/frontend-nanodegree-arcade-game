@@ -12,11 +12,28 @@ const StartingPoint = -98;
 const PlayerStartingX = 202;
 const PlayerStartingY = 315;
 const PlayerXMoveIncrement = 101;
-const PlayerYMoveIncrement = 85;
+const PlayerYMoveIncrement = 84;
 const PlayerLeftBoundary = -100;
 const PlayerRightBoundary = 450;
 const PlayerTopBoundary = -100;
 const PlayerBottomBoundary = 450;
+
+//Important Item coordinates
+const xCords = [10, 111, 212, 313, 414];
+const yCords = [88, 172, 256];
+
+const B0 = {X: 10, Y: 88};
+const B1 = {X: 111, Y: 88};
+const B2 = {X: 212, Y: 88};
+const B3 = {X: 313, Y: 88};
+const B4 = {X: 414, Y: 88};
+const C0 = {X: 10, Y: 172};
+const C1 = {X: 111, Y: 172};
+const C2 = {X: 212, Y: 172};
+const C3 = {X: 313, Y: 172};
+const C4 = {X: 414, Y: 172};
+const D2 = {X: 212, Y: 256};
+const E2 = {X: 212, Y: 340};
 
 // Enemies our player must avoid
 var Enemy = function(loc) {
@@ -237,16 +254,39 @@ ScoreBoard.prototype.renderScore = function() {
   document.getElementById("scoreTally").innerHTML = `Score: ${this.score}`
 }
 
+var Items = function(x, y) {
+  this.sprite = 'images/Gem Blue.png';
+  this.x = x;
+  //this.y = PlayerStartingY + 25;
+  this.y = y;
+}
+
+Items.prototype.render = function() {
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 80, 130);
+}
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const allEnemies = [new SlowBug(Top), new FastBug(Middle), new StandardBug(Bottom)];
 const player = new Player;
 const scoreBoard = new ScoreBoard;
+const items = [];
 
 //assigns the selected sprite to the player.
 function selection(char) {
   player.sprite = char;
+}
+
+//randomizes the number of items and cords of items to be
+//displayed on the board. 
+function initItems() {
+  const itemCount = Math.floor((Math.random() * 5) + 1);
+  for (var i = 0; i < itemCount; i++) {
+    const randomXCord = Math.floor((Math.random() * xCords.length ));
+    const randomYCord = Math.floor((Math.random() * yCords.length));
+    items.push(new Items(xCords[randomXCord], yCords[randomYCord]));
+  }
 }
 
 // This listens for key presses and sends the keys to your
