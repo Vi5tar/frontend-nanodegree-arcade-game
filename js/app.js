@@ -1,8 +1,8 @@
 // the y coordinates in pixels for the 3 brick rows to center the bug sprite.
-const Top = 60;
-const Middle = 145;
-const Bottom = 230;
-const Win = -25;
+const Top = 63;
+const Middle = 147;
+const Bottom = 231;
+const Win = -21;
 
 // x coordinate that is the farthest right a bug can still be seeen.
 const FarRight = 502;
@@ -18,22 +18,9 @@ const PlayerRightBoundary = 450;
 const PlayerTopBoundary = -100;
 const PlayerBottomBoundary = 450;
 
-//Important Item coordinates
+//Coordinates for placing items in the 'road'.
 const xCords = [10, 111, 212, 313, 414];
 const yCords = [88, 172, 256];
-
-const B0 = {X: 10, Y: 88};
-const B1 = {X: 111, Y: 88};
-const B2 = {X: 212, Y: 88};
-const B3 = {X: 313, Y: 88};
-const B4 = {X: 414, Y: 88};
-const C0 = {X: 10, Y: 172};
-const C1 = {X: 111, Y: 172};
-const C2 = {X: 212, Y: 172};
-const C3 = {X: 313, Y: 172};
-const C4 = {X: 414, Y: 172};
-const D2 = {X: 212, Y: 256};
-const E2 = {X: 212, Y: 340};
 
 // Enemies our player must avoid
 var Enemy = function(loc) {
@@ -129,16 +116,6 @@ SlowBug.prototype.move = function(dt) {
   this.x += (100 * dt);
 }
 
-// Non moving Bug for placement debugging
-const StillBug = function(loc) {
-  Enemy.call(this, loc);
-}
-StillBug.prototype = Object.create(Enemy.prototype);
-
-StillBug.prototype.move = function(dt) {
-  this.x = -97
-}
-
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -166,21 +143,25 @@ Player.prototype.handleInput = function(key) {
     case 'up':
       if (this.y - PlayerYMoveIncrement > PlayerTopBoundary) {
         this.y -= PlayerYMoveIncrement;
+        this.checkGems();
       }
       break;
     case 'down':
       if (this.y + PlayerYMoveIncrement < PlayerBottomBoundary) {
         this.y += PlayerYMoveIncrement;
+        this.checkGems();
       }
       break;
     case 'left':
       if (this.x - PlayerXMoveIncrement > PlayerLeftBoundary) {
         this.x -= PlayerXMoveIncrement;
+        this.checkGems();
       }
       break;
     case 'right':
       if (this.x + PlayerYMoveIncrement < PlayerRightBoundary) {
         this.x += PlayerXMoveIncrement;
+        this.checkGems();
       }
       break;
     default:
@@ -189,7 +170,7 @@ Player.prototype.handleInput = function(key) {
 }
 
 // checks if the player is hit by an Enemy and resets
-// player position if it is
+// player position if it is.
 Player.prototype.checkCollisions = function() {
   allEnemies.forEach(function(enemy) {
     if (enemy.y == player.y  && enemy.x > player.x - 50 && enemy.x < player.x + 50) {
@@ -201,6 +182,18 @@ Player.prototype.checkCollisions = function() {
   });
 }
 
+//check if the player landed on a gem. Adds the gems value to
+//the score if so.
+Player.prototype.checkGems = function() {
+  items.forEach(function(item) {
+    if (item.y > player.y - 50 && item.y < player.y + 50 && item.x > player.x - 50 && item.x < player.x + 50) {
+      scoreBoard.alterScore(item.value);
+      scoreBoard.renderScore();
+      items.splice((items.indexOf(item)), 1);
+    }
+  })
+}
+
 // checks if the player made it to the water. ups score
 // and resests character position.
 Player.prototype.checkWin = function() {
@@ -208,11 +201,11 @@ Player.prototype.checkWin = function() {
     this.x++;
     this.y++;
     setTimeout(function() {
-      //alert('Your nimble maneuvers = success!')
       player.x = PlayerStartingX;
       player.y = PlayerStartingY;
       scoreBoard.alterScore(100);
       scoreBoard.renderScore();
+      initItems();
     }, 250);
   }
 }
@@ -257,8 +250,8 @@ ScoreBoard.prototype.renderScore = function() {
 var Items = function(x, y) {
   this.sprite = 'images/Gem Blue.png';
   this.x = x;
-  //this.y = PlayerStartingY + 25;
   this.y = y;
+  this.value = 75;
 }
 
 Items.prototype.render = function() {
@@ -279,7 +272,7 @@ function selection(char) {
 }
 
 //randomizes the number of items and cords of items to be
-//displayed on the board. 
+//displayed on the board.
 function initItems() {
   const itemCount = Math.floor((Math.random() * 5) + 1);
   for (var i = 0; i < itemCount; i++) {
