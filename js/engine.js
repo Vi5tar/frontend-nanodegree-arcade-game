@@ -150,6 +150,9 @@ var Engine = (function(global) {
     /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+    items.forEach(function(item) {
+      item.render();
+    });
     allEnemies.forEach(function(enemy) {
       enemy.render();
     });
@@ -163,13 +166,14 @@ var Engine = (function(global) {
      */
   function reset() {
     $('#charSelect').modal()
+    initItems();
   }
 
   /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.
      */
-  Resources.load(['images/stone-block.png', 'images/water-block.png', 'images/grass-block.png', 'images/enemy-bug.png', 'images/char-boy.png', 'images/char-cat-girl.png', 'images/char-horn-girl.png', 'images/char-pink-girl.png', 'images/char-princess-girl.png']);
+  Resources.load(['images/stone-block.png', 'images/water-block.png', 'images/grass-block.png', 'images/enemy-bug.png', 'images/char-boy.png', 'images/char-cat-girl.png', 'images/char-horn-girl.png', 'images/char-pink-girl.png', 'images/char-princess-girl.png', 'images/Gem Blue.png']);
   Resources.onReady(init);
 
   /* Assign the canvas' context object to the global variable (the window
