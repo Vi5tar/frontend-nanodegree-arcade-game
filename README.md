@@ -19,6 +19,6 @@ hearts reach zero the game is over.
 Crossing the road and getting to the water gets you 100points. Collecting the
 different colored Gems along the way will get you additional points.
 
-![alt text](https://github.com/Vi5tar/frontend-nanodegree-arcade-game/images/Gem Green.png "Green Gem") Worth 25 points.
-![alt text](images/Gem Blue.png "Blue Gem") Worth 75 points.
-![alt text](images/Gem Orange.png "Orange Gem") Worth 125 points.
+![alt text](https://github.com/Vi5tar/frontend-nanodegree-arcade-game/blob/master/images/Gem%20Green.png) Worth 25 points.
+![alt text](https://github.com/Vi5tar/frontend-nanodegree-arcade-game/blob/master/images/Gem%20Blue.png) Worth 75 points.
+![alt text](https://github.com/Vi5tar/frontend-nanodegree-arcade-game/blob/master/images/Gem%20Orange.png) Worth 125 points.
