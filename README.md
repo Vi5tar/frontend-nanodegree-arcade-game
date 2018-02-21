@@ -1,6 +1,24 @@
-frontend-nanodegree-arcade-game
-===============================
+Frogger Like Game (Udacity frontend-nanodegree-project)
+=======================================================
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+### How to Play:
+1. Open index.html in your favorite browser.
+2. Use the Arrow Keys to move your character.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+### Compatibility:
+Works on devices with Arrow Keys and a Web Browser.
+
+### Objective:
+The primary objective is to get across the road and into the water without being
+hit by a bug. You have 3 lives (indicated by the heart icons in the to right of
+the screen) to accomplish this. Upon reaching the water the items on the board
+will repopulate and you will return to the starting position. When your lives/
+hearts reach zero the game is over.
+
+### Scoring:
+Crossing the road and getting to the water gets you 100points. Collecting the
+different colored Gems along the way will get you additional points.
+
+![alt text](images/Gem Green.png "Green Gem") Worth 25 points.
+![alt text](images/Gem Blue.png "Blue Gem") Worth 75 points.
+![alt text](images/Gem Orange.png "Orange Gem") Worth 125 points.
