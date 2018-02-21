@@ -24,11 +24,6 @@ const yCords = [88, 172, 256];
 
 // Enemies our player must avoid
 var Enemy = function(loc) {
-  // Variables applied to each of our instances go here,
-  // we've provided one for you to get started
-
-  // The image/sprite for our enemies, this uses
-  // a helper we've provided to easily load images
   this.sprite = 'images/enemy-bug.png';
   this.x = StartingPoint;
   this.y = loc;
@@ -66,7 +61,6 @@ Enemy.prototype.reset = function() {
       case 3:
         RowLoc = Bottom;
       default:
-
     }
     switch (BugType) {
       case 1:
@@ -78,7 +72,6 @@ Enemy.prototype.reset = function() {
       case 3:
         allEnemies.push(new SlowBug(RowLoc));
       default:
-
     }
   }
 };
@@ -116,9 +109,7 @@ SlowBug.prototype.move = function(dt) {
   this.x += (100 * dt);
 }
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+//The player the user uses to play the game.
 var Player = function(loc) {
   this.sprite = 'images/char-cat-girl.png';
   this.x = PlayerStartingX;
@@ -247,20 +238,47 @@ ScoreBoard.prototype.renderScore = function() {
   document.getElementById("scoreTally").innerHTML = `Score: ${this.score}`
 }
 
+//Items that can be gathered by the player for additional
+//points.
 var Items = function(x, y) {
-  this.sprite = 'images/Gem Blue.png';
   this.x = x;
   this.y = y;
-  this.value = 75;
 }
 
+//Draws Items onto the board
 Items.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 80, 130);
 }
 
+//Blue Gem valued at 75
+const BlueGem = function(x, y) {
+  Items.call(this, x, y);
+  this.sprite = 'images/Gem Blue.png';
+  this.value = 75;
+}
+BlueGem.prototype = Object.create(Items.prototype);
+
+//Green Gem valued at 25
+const GreenGem = function(x, y) {
+  Items.call(this, x, y);
+  this.sprite = 'images/Gem Green.png';
+  this.value = 25;
+}
+GreenGem.prototype = Object.create(Items.prototype);
+
+//Orange Gem valued at 125
+const OrangeGem = function(x, y) {
+  Items.call(this, x, y);
+  this.sprite = 'images/Gem Orange.png';
+  this.value = 125;
+}
+OrangeGem.prototype = Object.create(Items.prototype);
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+// Place all item objects in item array
+// Place ScoreBoard object in scoreBoard
 const allEnemies = [new SlowBug(Top), new FastBug(Middle), new StandardBug(Bottom)];
 const player = new Player;
 const scoreBoard = new ScoreBoard;
@@ -271,14 +289,25 @@ function selection(char) {
   player.sprite = char;
 }
 
-//randomizes the number of items and cords of items to be
-//displayed on the board.
+//randomizes number of items, cords of items, and type of
+//items to be displayed on the board.
 function initItems() {
+  items.length = 0;
   const itemCount = Math.floor((Math.random() * 5) + 1);
   for (var i = 0; i < itemCount; i++) {
+    const itemType = Math.floor((Math.random() * 100) + 1);
     const randomXCord = Math.floor((Math.random() * xCords.length ));
     const randomYCord = Math.floor((Math.random() * yCords.length));
-    items.push(new Items(xCords[randomXCord], yCords[randomYCord]));
+    switch (true) {
+      case itemType > 95 && itemType < 100:
+        items.push(new OrangeGem(xCords[randomXCord], yCords[randomYCord]));
+        break;
+      case itemType > 0 && itemType < 25:
+        items.push(new BlueGem(xCords[randomXCord], yCords[randomYCord]));
+        break;
+      default:
+        items.push(new GreenGem(xCords[randomXCord], yCords[randomYCord]));
+    }
   }
 }
 
