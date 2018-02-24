@@ -22,6 +22,9 @@ const PlayerBottomBoundary = 450;
 const xCords = [10, 111, 212, 313, 414];
 const yCords = [88, 172, 256];
 
+//High Score text that is displayed.
+let highScoreText = '';
+
 // Enemies our player must avoid
 var Enemy = function(loc) {
   this.sprite = 'images/enemy-bug.png';
@@ -205,13 +208,34 @@ Player.prototype.checkWin = function() {
 var ScoreBoard = function() {
   this.lives = 3;
   this.score = 0;
+  this.scoreHigh = 0;
+  this.playerHigh = "High Score";
 };
 
 //lowers the life count by one. game resets if lives drop
-//to zero
+//to zero. If the score is greater than the High Score the score is stored
+//in scoreHigh and written to indexedDB.
 ScoreBoard.prototype.loseLife = function() {
   this.lives--;
   if (this.lives == 0) {
+    if (this.score > this.scoreHigh) {
+      this.scoreHigh = this.score;
+      dbPromise.then(function(db) {
+        var tx = db.transaction('keyval');
+        var keyValStore = tx.objectStore('keyval');
+        return keyValStore.get('High Score');
+      }).then(function(val) {
+        if (scoreBoard.scoreHigh > val) {
+          dbPromise.then(function(db) {
+            var tx = db.transaction('keyval', 'readwrite');
+            var keyValStore = tx.objectStore('keyval');
+            keyValStore.put(scoreBoard.scoreHigh, scoreBoard.playerHigh);
+          })
+        }
+      })
+      //this.createHighScore();
+      //this.renderHighScore();
+    }
     alert(`game over :(
 Your score: ${this.score}`);
     document.location.reload();
@@ -221,6 +245,16 @@ Your score: ${this.score}`);
 //alters score.
 ScoreBoard.prototype.alterScore = function(score) {
   this.score += score;
+}
+
+//Creates the High Score Text which is displayed under the game board.
+ScoreBoard.prototype.createHighScore = function() {
+  const dotLength = 39 - this.playerHigh.length - this.scoreHigh.toString().length;
+  let dots = '';
+  for (var i = 0; i < dotLength; i++) {
+    dots += '.';
+  }
+  highScoreText = this.playerHigh + dots + this.scoreHigh;
 }
 
 //updates the scoreboard to represent current lives.
@@ -236,6 +270,11 @@ ScoreBoard.prototype.renderLife = function() {
 //update the scoreboard to reflect current score.
 ScoreBoard.prototype.renderScore = function() {
   document.getElementById("scoreTally").innerHTML = `Score: ${this.score}`
+}
+
+//displays the High Score.
+ScoreBoard.prototype.renderHighScore = function() {
+  document.getElementById('highScore').innerHTML = highScoreText;
 }
 
 //Items that can be gathered by the player for additional
@@ -322,4 +361,13 @@ document.addEventListener('keyup', function(e) {
   };
 
   player.handleInput(allowedKeys[e.keyCode]);
+});
+
+//creates a place to cache the high score.
+var dbPromise = idb.open('high-score', 1, function(upgradeDb) {
+  switch(upgradeDb.oldVersion) {
+    case 0:
+      var keyValStore = upgradeDb.createObjectStore('keyval');
+      keyValStore.put(scoreBoard.scoreHigh, 'High Score');
+  }
 });

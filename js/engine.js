@@ -167,6 +167,19 @@ var Engine = (function(global) {
   function reset() {
     $('#charSelect').modal()
     initItems();
+    //retrieves the high score from the cache then renders it under the
+    //game board.
+    dbPromise.then(function(db) {
+      var tx = db.transaction('keyval');
+      var keyValStore = tx.objectStore('keyval');
+      return keyValStore.get('High Score');
+    }).then(function(val) {
+      scoreBoard.scoreHigh = val;
+    }).then(function() {
+      scoreBoard.createHighScore();
+      scoreBoard.renderHighScore();
+    })
+
   }
 
   /* Go ahead and load all of the images we know we're going to need to
