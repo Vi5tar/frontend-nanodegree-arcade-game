@@ -2,8 +2,7 @@ Frogger Like Game (Udacity frontend-nanodegree-project)
 =======================================================
 
 ### How to Play:
-1. Open index.html in your favorite browser.
-  * Or follow this link: [](https://vi5tar.github.io/frontend-nanodegree-arcade-game/)
+1. Open index.html in your favorite browser. (Or follow this [link](https://vi5tar.github.io/frontend-nanodegree-arcade-game/).)
 2. Use the Arrow Keys to move your character.
 
 ### Compatibility:
